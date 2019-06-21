@@ -122,12 +122,12 @@ struct Binding
     EventDetails m_details;
 };
 
+using EventTypes = std::unordered_map<std::string, EventType>;
+using KeyCodes = std::unordered_map<std::string, int>;
 using Bindings = std::unordered_map<std::string, Binding*>;
-
 using CallbackContainer = std::unordered_map<std::string, std::function<void(EventDetails*)>>;
 
 enum class StateType;
-
 using Callbacks = std::unordered_map<StateType, CallbackContainer>;
 
 class EventManager
@@ -175,8 +175,12 @@ public:
     void update();
 
 private:
+    void loadEventTypes();
+    void loadSupportedKeys();
     void loadBindings();
 
+    EventTypes m_eventTypes;
+    KeyCodes m_supportedKeys;
     StateType m_currentState;
     Bindings m_bindings;
     Callbacks m_callbacks;

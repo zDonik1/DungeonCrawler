@@ -130,7 +130,7 @@ void Map::purgeTileSet()
 void Map::loadTiles(const std::string& l_path)
 {
     std::ifstream tileSetFile;
-    tileSetFile.open(Utils::getWorkingDirectory() + l_path);
+    tileSetFile.open(Utils::getWorkingDirectory() + "config/" + l_path);
     if (!tileSetFile.is_open()) {
         std::cout << "! Failed loading tile set file: " << l_path << std::endl;
         return;

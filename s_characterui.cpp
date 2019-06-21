@@ -65,7 +65,7 @@ void S_CharacterUI::render(Window *l_wind)
             l_wind->getRenderWindow()->draw(m_heartBar);
         }
         if (name) {
-            m_nickname.setString("you fking rat"); /// TO DO
+            m_nickname.setString(m_systemManager->getEntityManager()->getComponent<C_Name>(entity, Component::Name)->getName());
             m_nickname.setOrigin(m_nickname.getLocalBounds().width / 2, m_nickname.getLocalBounds().height / 2);
             if (health) {
                 m_nickname.setPosition(m_heartBar.getPosition().x, m_heartBar.getPosition().y - m_heartBarSize.y);

@@ -5,6 +5,8 @@ EventManager::EventManager()
     : m_currentState(StateType(0))
     , m_hasFocus(true)
 {
+    loadEventTypes();
+    loadSupportedKeys();
     loadBindings();
 }
 EventManager::~EventManager()
@@ -202,21 +204,76 @@ void EventManager::update()
     }
 }
 
-// loadBindings function loads bindings from a file "keys.cfg" to vector structure Bindings
+void EventManager::loadEventTypes()
+{
+    std::ifstream eventTypesFile;
+    eventTypesFile.open(Utils::getWorkingDirectory() + "config/eventtypes.cfg");
+
+    if(!eventTypesFile.is_open()) {
+        std::cout << "! Failed loading bindings.cfg" << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(eventTypesFile, line)) { // getline function streams a line from bindings and loads it into line
+        if (line[0] == '|') {
+            continue;
+        }
+
+        std::stringstream keyStream(line);
+        std::string eventName;
+        int code;
+        keyStream >> eventName >> code;
+        m_eventTypes[eventName] = static_cast<EventType>(code);
+    }
+
+    eventTypesFile.close();
+}
+
+void EventManager::loadSupportedKeys()
+{
+    std::ifstream supportedKeysFile;
+    supportedKeysFile.open(Utils::getWorkingDirectory() + "config/supportedkeys.cfg");
+
+    if(!supportedKeysFile.is_open()) {
+        std::cout << "! Failed loading supportedkeys.cfg" << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(supportedKeysFile, line)) { // getline function streams a line from bindings and loads it into line
+        if (line[0] == '|') {
+            continue;
+        }
+
+        std::stringstream keyStream(line);
+        std::string key;
+        int code;
+        keyStream >> key >> code;
+        m_supportedKeys[key] = code;
+    }
+
+    supportedKeysFile.close();
+}
+
 void EventManager::loadBindings()
 {
     std::string delimiter = ":";
 
     std::ifstream bindings;
-    bindings.open(Utils::getWorkingDirectory() + "keys.cfg");
+    bindings.open(Utils::getWorkingDirectory() + "config/bindings.cfg");
 
     if(!bindings.is_open()) {
-        std::cout << "! Failed loading keys.cfg" << std::endl;
+        std::cout << "! Failed loading bindings.cfg" << std::endl;
         return;
     }
 
     std::string line;
     while (std::getline(bindings, line)) { // getline function streams a line from bindings and loads it into line
+        if (line[0] == '|') {
+            continue;
+        }
+
         std::stringstream keyStream(line);
         std::string callbackName;
         keyStream >> callbackName;
@@ -234,7 +291,7 @@ void EventManager::loadBindings()
                 break;
             }
 
-            EventType type = EventType(stoi(keyval.substr(start, end - start)));
+            EventType type = m_eventTypes[keyval.substr(start, end - start)];
 
 
             EventInfo eventInfo;
@@ -263,7 +320,7 @@ void EventManager::loadBindings()
                 eventInfo.m_gui.m_element = e;
             }
             else {
-                int code = stoi(keyval.substr(end + delimiter.length(), keyval.find(delimiter, end + delimiter.length())));
+                int code = m_supportedKeys[keyval.substr(end + delimiter.length(), keyval.find(delimiter, end + delimiter.length()))];
                 eventInfo.m_code = code;
             }
 
