@@ -8,17 +8,19 @@
 using SystemContainer = std::unordered_map<System, S_Base*>;
 using EntityEventContainer = std::unordered_map<EntityID, EventQueue>;
 
+struct SharedContext;
 class EntityManager;
 
 class SystemManager
 {
 public:
-    SystemManager();
+    SystemManager(SharedContext *l_context);
     virtual ~SystemManager();
 
     void setEntityManager(EntityManager* l_entityMgr);
     EntityManager *getEntityManager();
     MessageHandler *getMessageHandler();
+    SharedContext *getContext();
 
     template<class T>
     T *getSystem(const System &l_system)
@@ -54,4 +56,5 @@ protected:
     EntityManager *m_entityManager;
     EntityEventContainer m_events;
     MessageHandler m_messages;
+    SharedContext *m_context;
 };

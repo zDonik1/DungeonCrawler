@@ -1,8 +1,9 @@
 #include "systemmanager.h"
 #include "entitymanager.h"
 
-SystemManager::SystemManager()
+SystemManager::SystemManager(SharedContext *l_context)
     : m_entityManager(nullptr)
+    , m_context(l_context)
 {
 }
 
@@ -26,6 +27,11 @@ EntityManager *SystemManager::getEntityManager()
 MessageHandler *SystemManager::getMessageHandler()
 {
     return &m_messages;
+}
+
+SharedContext *SystemManager::getContext()
+{
+    return m_context;
 }
 
 void SystemManager::addEvent(const EntityID &l_entity, const EventID &l_event)
