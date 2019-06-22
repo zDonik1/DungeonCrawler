@@ -55,7 +55,6 @@ Window* Game::getWindow()
 
 void Game::update()
 {
-    m_window.update();
     m_stateManager.update(m_elapsed);
     m_client.update(m_elapsed);
     m_guiManager.update(m_elapsed.asSeconds());
