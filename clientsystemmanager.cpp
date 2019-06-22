@@ -1,7 +1,8 @@
 #include "clientsystemmanager.h"
 
-ClientSystemManager::ClientSystemManager(TextureManager *l_textureMgr, FontManager *l_fontMgr)
-    : m_textureMgr(l_textureMgr)
+ClientSystemManager::ClientSystemManager(SharedContext *l_context, TextureManager *l_textureMgr, FontManager *l_fontMgr)
+    : SystemManager(l_context)
+    , m_textureMgr(l_textureMgr)
     , m_fontMgr(l_fontMgr)
 {
     addSystem<S_State>(System::State);

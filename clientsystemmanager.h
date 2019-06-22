@@ -17,7 +17,7 @@
 class ClientSystemManager : public SystemManager
 {
 public:
-    ClientSystemManager(TextureManager *l_textureMgr, FontManager *l_fontMgr);
+    ClientSystemManager(SharedContext *l_context, TextureManager *l_textureMgr, FontManager *l_fontMgr);
     ~ClientSystemManager();
 
     TextureManager *getTextureManager();

@@ -3,7 +3,7 @@
 Game::Game()
     : m_window("Chapter 14", sf::Vector2u(640, 480))
     , m_soundManager(&m_audioManager)
-    , m_systemManager(&m_textureManager, &m_fontManager)
+    , m_systemManager(&m_context, &m_textureManager, &m_fontManager)
     , m_entityManager(&m_systemManager, &m_textureManager)
     , m_guiManager(m_window.getEventManager(), &m_context)
     , m_stateManager(&m_context)
