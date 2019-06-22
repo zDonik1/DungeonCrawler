@@ -35,6 +35,8 @@ void Window::create()
 	if(m_isFullscreen){ style = sf::Style::Fullscreen; }
 
 	m_window.create(sf::VideoMode(m_windowSize.x,m_windowSize.y,32),m_windowTitle,style);
+
+    m_window.setFramerateLimit(60);
 }
 
 void Window::beginDraw()
